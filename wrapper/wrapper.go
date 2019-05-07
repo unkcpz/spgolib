@@ -1,7 +1,7 @@
 package wrapper
 
 //#cgo CFLAGS: -g -Wall
-//#cgo LDFLAGS: -lm ${SRCDIR}/../libs/libsymspg.a
+//#cgo LDFLAGS: -lm
 // #include <stdlib.h>
 //#include "wrapper.h"
 import "C"

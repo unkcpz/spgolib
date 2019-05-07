@@ -78,8 +78,8 @@ extern "C" {
   each translation is:
   [ t_a, t_b, t_c ]
 
-  symprec: Distance tolerance in Cartesian coordinates to find crystal
-           symmetry.
+  symprec: Tolerance of atomic positions (in fractional coordinate)
+  in finding symmetry operations
 
   ------------------------------------------------------------------
 
