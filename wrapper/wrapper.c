@@ -104,6 +104,24 @@ int spgo_dataset_tranlations(SpglibDataset *dataset, double *out) {
   return 1;
 }
 
+int spgo_dataset_wyckoffs(SpglibDataset *dataset, int *out) {
+  int n=0;
+  for(int i=0; i < dataset->n_atoms; i++) {
+    out[n] = dataset->wyckoffs[i];
+    n++;
+  }
+  return 1;
+}
+
+int spgo_dataset_equivalent_atoms(SpglibDataset *dataset, int *out) {
+  int n=0;
+  for(int i=0; i < dataset->n_atoms; i++) {
+    out[n] = dataset->equivalent_atoms[i];
+    n++;
+  }
+  return 1;
+}
+
 void flat_mat_3D(double mat[][3], double flat[], int n) {
   double *pmat = &mat[0][0];
   double *pflat = &flat[0];

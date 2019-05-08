@@ -47,7 +47,7 @@ func TestNewSpglibDatabase(t *testing.T) {
   }
 
   got_str = goSpglibDataset.PointgroupSymbol
-  if got_str != "-I 4 2 3" {
+  if got_str != "m-3m" {
     t.Errorf("pointgroup_symbol, expect 'm-3m', got %s", got_str)
   }
 
@@ -58,6 +58,8 @@ func TestNewSpglibDatabase(t *testing.T) {
 
   // fmt.Println(goSpglibDataset.Rotations)
   // fmt.Println(goSpglibDataset.Translations)
+  // fmt.Println(goSpglibDataset.Wyckoffs)
+  // fmt.Println(goSpglibDataset.AtomEquivalent)
 }
 
 func TestDelaunayReduce(t *testing.T) {

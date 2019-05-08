@@ -26,6 +26,8 @@ int spgo_pointgroup_symbol(SpglibDataset *dataset, char out[17]);
 int spgo_dataset_n_operations(SpglibDataset *dataset);
 int spgo_dataset_rotations(SpglibDataset *dataset, int *out);
 int spgo_dataset_tranlations(SpglibDataset *dataset, double *out);
+int spgo_dataset_wyckoffs(SpglibDataset *dataset, int *out);
+int spgo_dataset_equivalent_atoms(SpglibDataset *dataset, int *out);
 
 void flat_mat_3D(double mat[][3], double flat[], int n);
 void mat_flat_3D(double flat[], double mat[][3], int n);

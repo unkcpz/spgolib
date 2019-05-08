@@ -17,12 +17,20 @@ type SpglibDataset struct {
   // Pointgroup symbol
   PointgroupSymbol string
 
+  // wyckoffs
+  Wyckoffs []int
+  // equivalent atoms
+  AtomEquivalent []int
 
+  // Noperations number of operations
   Noperations int
+  // Rotations are 1D represent of rotations tobe reshape to n*(3*3)
   Rotations []int
+  // Translations are 1D represent of tarnslations tobe reshape to n*(3)
   Translations []float64
 }
 
+// NewSpglibDataset create SpglibDataset with a cell
 func NewSpglibDataset(
   lattice []float64,
   position []float64,
@@ -31,8 +39,8 @@ func NewSpglibDataset(
   symprec float64,
   ) *SpglibDataset {
 
-  c_dataset := GetDataset(lattice, position, types, num_atom, symprec)
-  defer FreeDataset(c_dataset)
+  c_dataset := getDataset(lattice, position, types, num_atom, symprec)
+  defer freeDataset(c_dataset)
 
   spacegroupNumber := C.spgo_spacegroup_number(c_dataset)
 
@@ -64,19 +72,27 @@ func NewSpglibDataset(
   translations := make([]float64, nOp*3, nOp*3)
   C.spgo_dataset_tranlations(c_dataset, (*C.double)(&translations[0]))
 
+  wyckoffs := make([]int32, num_atom)
+  C.spgo_dataset_wyckoffs(c_dataset, (*C.int)(&wyckoffs[0]))
+
+  equivalent_atoms := make([]int32, num_atom)
+  C.spgo_dataset_equivalent_atoms(c_dataset, (*C.int)(&equivalent_atoms[0]))
+
   return &SpglibDataset{
     SpacegroupNumber: int(spacegroupNumber),
     SpacegroupSymbol:  internationalSymbol,
     HallNumber: int(hallNumber),
     HallSymbol: hallSymbol,
     PointgroupSymbol: pointgroupSymbol,
+    Wyckoffs: tobit(wyckoffs),
+    AtomEquivalent: tobit(equivalent_atoms),
     Noperations: int(nOp),
     Rotations: tobit(rotations),
     Translations: translations,
   }
 }
 
-func GetDataset(
+func getDataset(
   lattice []float64,
   position []float64,
   types []int,
@@ -93,10 +109,11 @@ func GetDataset(
   )
 }
 
-func FreeDataset(dataset *C.SpglibDataset) {
+func freeDataset(dataset *C.SpglibDataset) {
   C.spgo_free_dataset(dataset)
 }
 
+// DelaunayReduce reduce the cell by delaunay approach
 func DelaunayReduce(lattice []float64, symprec float64) []float64 {
   ret := C.spgo_delaunay_reduce(
     (*C.double)(unsafe.Pointer(&lattice[0])),
@@ -108,6 +125,7 @@ func DelaunayReduce(lattice []float64, symprec float64) []float64 {
   return lattice
 }
 
+// StandardizeCell standardize cell 
 func StandardizeCell(
   lattice []float64,
   position []float64,
