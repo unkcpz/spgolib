@@ -2,7 +2,6 @@ package spgolib
 
 import (
 	"github.com/unkcpz/spgolib/wrapper"
-	"gonum.org/v1/gonum/mat"
 )
 
 type Dataset struct {
@@ -23,9 +22,9 @@ type Dataset struct {
 	// Noperations number of operations
 	Nops int
 	// Rotations are reshaped rotations n*(3*3)
-	Rotations []*mat.Dense
+	Rotations []int
 	// Translations are reshaped tarnslations n*(3)
-	Translations []*mat.VecDense
+	Translations []float64
 }
 
 // NewDataset create spglib dataset from lattice (row present) position and types
@@ -44,13 +43,13 @@ func NewDataset(
 		eps,
 	)
 
-	nops := ds.Noperations
-	rots := make([]*mat.Dense, nops, nops)
-	trans := make([]*mat.VecDense, nops, nops)
-	for i := 0; i < nops; i++ {
-		rots[i] = mat.NewDense(3, 3, intToFloat(ds.Rotations[i*9:i*9+9]))
-		trans[i] = mat.NewVecDense(3, ds.Translations[i*3:i*3+3])
-	}
+	// nops := ds.Noperations
+	// for i := 0; i < nops; i++ {
+	// 	rots[i] = mat.NewDense(3, 3, intToFloat(ds.Rotations[i*9:i*9+9]))
+	// 	trans[i] = mat.NewVecDense(3, ds.Translations[i*3:i*3+3])
+	// }
+  rots := ds.Rotations
+  trans := ds.Translations
 	rds := &Dataset{
 		SpaceNumber:    ds.SpacegroupNumber,
 		SpaceSymbol:    ds.SpacegroupSymbol,
@@ -115,12 +114,4 @@ func transpose(latt []float64) []float64 {
 		}
 	}
 	return r
-}
-
-func intToFloat(a []int) []float64 {
-	b := make([]float64, len(a))
-	for i := range b {
-		b[i] = float64(a[i])
-	}
-	return b
 }

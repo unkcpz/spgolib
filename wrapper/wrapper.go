@@ -1,6 +1,6 @@
 package wrapper
 
-//#cgo CFLAGS: -g
+//#cgo CFLAGS: --std=gnu99 -fstrict-aliasing
 //#cgo LDFLAGS: -lm
 // #include <stdlib.h>
 //#include "wrapper.h"
