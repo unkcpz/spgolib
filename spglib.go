@@ -30,7 +30,7 @@ type Dataset struct {
 
 // NewDataset create spglib dataset from lattice (row present) position and types
 func NewDataset(
-	lattice []float64,
+	lattice,
 	positions []float64,
 	types []int,
 	eps float64) *Dataset {
@@ -74,11 +74,11 @@ func Delaunay(lattice []float64, symprec float64) []float64 {
 
 // Standardize return the primitive(toPrimitive=true) or conventional(toPrimitive=false) cell
 func Standardize(
-	lattice []float64,
+	lattice,
 	positions []float64,
 	types []int,
 	Natoms int,
-	toPrimitive bool,
+	toPrimitive,
 	noIdealize bool,
 	symprec float64) ([]float64, []float64, []int) {
 

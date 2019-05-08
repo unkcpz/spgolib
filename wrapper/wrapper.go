@@ -32,7 +32,7 @@ type SpglibDataset struct {
 
 // NewSpglibDataset create SpglibDataset with a cell
 func NewSpglibDataset(
-	lattice []float64,
+	lattice,
 	position []float64,
 	types []int,
 	num_atom int,
@@ -93,7 +93,7 @@ func NewSpglibDataset(
 }
 
 func getDataset(
-	lattice []float64,
+	lattice,
 	position []float64,
 	types []int,
 	num_atom int,
@@ -127,11 +127,11 @@ func DelaunayReduce(lattice []float64, symprec float64) []float64 {
 
 // StandardizeCell standardize cell
 func StandardizeCell(
-	lattice []float64,
+	lattice,
 	position []float64,
 	types []int,
-	num_atom int,
-	to_primitive int,
+	num_atom,
+	to_primitive,
 	no_idealize int,
 	symprec float64) ([]float64, []float64, []int) {
 
