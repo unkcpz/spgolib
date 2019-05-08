@@ -3,7 +3,7 @@ package spglib
 import (
 
   "gonum.org/v1/gonum/mat"
-  "github.com/unkcpz/spglib/go/wrapper"
+  "github.com/unkcpz/spgolib/wrapper"
 )
 
 type Dataset struct {
