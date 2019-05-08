@@ -26,29 +26,34 @@ func TestNewSpglibDatabase(t *testing.T) {
     1e-5,
   )
 
-  got_0 := goSpglibDataset.SpacegroupNumber
-  if got_0 != 229 {
-    t.Errorf("spacegroupNumber, expect 229, got %d", got_0)
+  got_int := goSpglibDataset.SpacegroupNumber
+  if got_int != 229 {
+    t.Errorf("spacegroupNumber, expect 229, got %d", got_int)
   }
 
-  got_1 := goSpglibDataset.InternationalSymbol
-  if got_1 != "Im-3m" {
-    t.Errorf("international_symbol, expect Im-3m, got %s", got_1)
+  got_str := goSpglibDataset.SpacegroupSymbol
+  if got_str != "Im-3m" {
+    t.Errorf("international_symbol, expect Im-3m, got %s", got_str)
   }
 
-  got_2 := goSpglibDataset.HallNumber
-  if got_2 != 529 {
-    t.Errorf("hallNumber, expect 229, got %d", got_2)
+  got_int = goSpglibDataset.HallNumber
+  if got_int != 529 {
+    t.Errorf("hallNumber, expect 229, got %d", got_int)
   }
 
-  got_3 := goSpglibDataset.HallSymbol
-  if got_3 != "-I 4 2 3" {
-    t.Errorf("international_symbol, expect '-I 4 2 3', got %s", got_3)
+  got_str = goSpglibDataset.HallSymbol
+  if got_str != "-I 4 2 3" {
+    t.Errorf("hall_symbol, expect '-I 4 2 3', got %s", got_str)
   }
 
-  got_4 := goSpglibDataset.Noperations
-  if got_4 != 96 {
-    t.Errorf("number of operations, expect 96, got %d", got_4)
+  got_str = goSpglibDataset.PointgroupSymbol
+  if got_str != "-I 4 2 3" {
+    t.Errorf("pointgroup_symbol, expect 'm-3m', got %s", got_str)
+  }
+
+  got_int = goSpglibDataset.Noperations
+  if got_int != 96 {
+    t.Errorf("number of operations, expect 96, got %d", got_int)
   }
 
   // fmt.Println(goSpglibDataset.Rotations)

@@ -1,18 +1,22 @@
 package wrapper
 
-//#cgo CFLAGS: -g -Wall
+//#cgo CFLAGS: -g
 //#cgo LDFLAGS: -lm
 // #include <stdlib.h>
 //#include "wrapper.h"
 import "C"
 import "unsafe"
-// import "fmt"
 
 type SpglibDataset struct {
+  // Spacegrou number and symbol
   SpacegroupNumber int
-  InternationalSymbol string
+  SpacegroupSymbol string
+  // Hall number and symbol
   HallNumber int
   HallSymbol string
+  // Pointgroup symbol
+  PointgroupSymbol string
+
 
   Noperations int
   Rotations []int
@@ -46,6 +50,12 @@ func NewSpglibDataset(
   C.free(unsafe.Pointer(ptr))
   hallSymbol := string(b)
 
+  ptr = C.malloc(C.sizeof_char * 6)
+  size = C.spgo_pointgroup_symbol(c_dataset, (*C.char)(ptr))
+  b = C.GoBytes(ptr, size)
+  C.free(unsafe.Pointer(ptr))
+  pointgroupSymbol := string(b)
+
   nOp := C.spgo_dataset_n_operations(c_dataset)
 
   rotations := make([]int32, nOp*9, nOp*9)
@@ -56,9 +66,10 @@ func NewSpglibDataset(
 
   return &SpglibDataset{
     SpacegroupNumber: int(spacegroupNumber),
-    InternationalSymbol:  internationalSymbol,
+    SpacegroupSymbol:  internationalSymbol,
     HallNumber: int(hallNumber),
     HallSymbol: hallSymbol,
+    PointgroupSymbol: pointgroupSymbol,
     Noperations: int(nOp),
     Rotations: tobit(rotations),
     Translations: translations,

@@ -22,6 +22,7 @@ int spgo_spacegroup_number(SpglibDataset *dataset);
 int spgo_hall_number(SpglibDataset *dataset);
 int spgo_international_symbol(SpglibDataset *dataset, char out[11]);
 int spgo_hall_symbol(SpglibDataset *dataset, char out[17]);
+int spgo_pointgroup_symbol(SpglibDataset *dataset, char out[17]);
 int spgo_dataset_n_operations(SpglibDataset *dataset);
 int spgo_dataset_rotations(SpglibDataset *dataset, int *out);
 int spgo_dataset_tranlations(SpglibDataset *dataset, double *out);

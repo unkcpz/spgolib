@@ -68,6 +68,12 @@ int spgo_hall_symbol(SpglibDataset *dataset, char out[17]) {
   return n;
 }
 
+int spgo_pointgroup_symbol(SpglibDataset *dataset, char out[17]) {
+  int n;
+  n = sprintf(out, "%s", dataset->pointgroup_symbol);
+  return n;
+}
+
 int spgo_dataset_n_operations(SpglibDataset *dataset) {
   return dataset->n_operations;
 }
