@@ -179,8 +179,8 @@ func StandardizeCell(
 		return originL, outP, tp
 	}
 
-	tp := tobit(tp32)
-	return lattice, position, tp
+	tp := tobit(tp32)[:n]
+	return lattice, position[:3*n], tp
 }
 
 // C.int is 32 bit even on a 64bit system, but Go int is 32 or 64 bit.
