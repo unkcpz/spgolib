@@ -137,17 +137,22 @@ func StandardizeCell(
 
 	tp32 := to32bit(types)
 
-	originL := make([]float64, len(lattice))
-	copy(originL, lattice)
-	originP := make([]float64, len(position))
-	copy(originP, position)
-	originT := make([]int32, len(tp32))
-	copy(originT, tp32)
+	var allocN int
+	allocN = num_atom * 4
+
+	outP := make([]float64, allocN*3, allocN*3)
+	for i := 0; i < len(position); i++ {
+		outP[i] = position[i]
+	}
+	outT := make([]int32, allocN, allocN)
+	for i := 0; i < len(tp32); i++ {
+		outT[i] = tp32[i]
+	}
 
 	n := C.spgo_standardize_cell(
 		(*C.double)(unsafe.Pointer(&lattice[0])),
-		(*C.double)(unsafe.Pointer(&position[0])),
-		(*C.int)(unsafe.Pointer(&tp32[0])),
+		(*C.double)(unsafe.Pointer(&outP[0])),
+		(*C.int)(unsafe.Pointer(&outT[0])),
 		(C.int)(num_atom),
 		(C.int)(to_primitive),
 		(C.int)(no_idealize),
@@ -156,31 +161,9 @@ func StandardizeCell(
 	if n == 0 {
 		panic("spg_standardize_cell failed")
 	}
-	// Recalculate slice dynamiclly
-	if int(n) > cap(position)/3 {
-		outP := make([]float64, n*3, n*3)
-		for i := 0; i < len(originP); i++ {
-			outP[i] = originP[i]
-		}
-		outT := make([]int32, n, n)
-		for i := 0; i < len(originT); i++ {
-			outT[i] = originT[i]
-		}
-		C.spgo_standardize_cell(
-			(*C.double)(unsafe.Pointer(&originL[0])),
-			(*C.double)(unsafe.Pointer(&outP[0])),
-			(*C.int)(unsafe.Pointer(&outT[0])),
-			(C.int)(num_atom),
-			(C.int)(to_primitive),
-			(C.int)(no_idealize),
-			(C.double)(symprec),
-		)
-		tp := tobit(outT)
-		return originL, outP, tp
-	}
 
-	tp := tobit(tp32)[:n]
-	return lattice, position[:3*n], tp
+	tp := tobit(outT)[:n]
+	return lattice, outP[:3*n], tp
 }
 
 // C.int is 32 bit even on a 64bit system, but Go int is 32 or 64 bit.
